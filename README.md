@@ -1,0 +1,2 @@
+# First-Responder-FireFighting-Drone
+A First Responder quadcopter with autonomous flight abilities and fire extinguishing capability. The system is designed to operate in an open environment and is capable of responding to triggered fire incidents at given sensor locations, flying autonomously from its home location to the location of the triggered sensor, in a straight path, and on arrival activates its fire extinguishing system in an attempt to combat the flame/fire. In this application, it is assumed that the flight path is free of obstacles.
