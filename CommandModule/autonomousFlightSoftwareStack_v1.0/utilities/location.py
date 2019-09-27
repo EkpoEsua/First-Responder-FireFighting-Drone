@@ -16,10 +16,10 @@ class Location(object):
     """ 
     @requires: 
     @modifies:
-    @returns: latitude
+    @returns: latitude double
     """
     def getLatitude(self):
-        return 0
+        return self._latitude
 
     """ 
     @requires: 
@@ -27,4 +27,4 @@ class Location(object):
     @returns: longitude
     """
     def getLongitude(self):
-        return 0
+        return self._longitude

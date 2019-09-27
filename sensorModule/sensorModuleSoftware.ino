@@ -16,8 +16,10 @@ const char* password = STAPSK;
 //define connection variables as a character array
 String AP_IP_addr = "192.168.4.1";
 String port = "5000";
-String sensorLatitude = "84.34";
-String sensorLongitude = "98.29";
+String sensorLatitude = "lat_84.34";
+String sensorLongitude = "lon_98.29";
+String sensorAltitude = "alt_0.00";
+String sensorID = "sensorID_01"
 
 void setup() {
   //insert debug tests
@@ -75,7 +77,7 @@ void loop() {
       // and pinLevel is the state of the pin connect to the fire sensor
       
       // Be sure to change this IP address and port number to match yours!!!
-      http.begin("http://192.168.8.1:5000/sensor_data/29.3/73.4/HIGH");
+      http.begin("http://192.168.8.1:5000/sensor_data/sensorID_01/lat_29.3/lon_73.4/alt_0.00/state_HIGH");
 //      http.begin("http://" + AP_IP_addr + ":" + port+ "/sensor_data/" + sensorLatitude + "/" + sensorLongitude + "/HIGH");
       int httpCode = http.GET();
       http.end();
