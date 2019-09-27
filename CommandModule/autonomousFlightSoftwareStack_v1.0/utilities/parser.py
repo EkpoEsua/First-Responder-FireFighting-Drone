@@ -11,7 +11,7 @@ this attributes will be used to create a sensor object having such attributes.
 
 """
 
-from publisher import Publisher
+from utilities.publisher import Publisher
 
 class Parser(Publisher):
 

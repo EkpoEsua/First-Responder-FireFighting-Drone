@@ -17,7 +17,10 @@ listen.runListener()
 
 time.sleep(10)
 
-Listener.shutdown_server()
+Listener.stop = True
+print('stop initiated!')
+
+time.sleep(10)
 
 print('sure!' + Parser.payload)
 

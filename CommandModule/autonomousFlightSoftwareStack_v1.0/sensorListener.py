@@ -18,6 +18,7 @@ from utilities.parser import Parser
 class Listener(object):
 
     listener = Flask(__name__)
+    stop = False
 
     def __init__(self):
         
@@ -36,6 +37,12 @@ class Listener(object):
     @returns: ID data from the cabin
     """
     def index(self, id, lat, lon, alt, state):
+        func = request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        func()
+        # if Listener.stop:
+        #     Listener.shutdown_server()
         dash = "-"
         payload = id+dash+lat+dash+lon+dash+alt+dash+state
         Parser.payload = payload
