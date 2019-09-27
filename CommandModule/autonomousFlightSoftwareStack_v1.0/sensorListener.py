@@ -10,7 +10,7 @@ into the parser class for further processing.
 
 """
 
-from flask import Flask
+from flask import Flask, request
 import threading
 from utilities.parser import Parser
 
@@ -59,3 +59,10 @@ class Listener(object):
     """  
     def runListenerOnThread(self):
         Listener.listener.run(host='0.0.0.0', port=5000)
+
+    @staticmethod
+    def shutdown_server():
+        func = request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        func()

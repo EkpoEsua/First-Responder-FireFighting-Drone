@@ -11,10 +11,43 @@ this attributes will be used to create a sensor object having such attributes.
 
 """
 
+from publisher import Publisher
 
-class Parser(object):
+class Parser(Publisher):
 
-    payload = ""
+    _payload = ''
+    _sensorID = ''
+    _latitude = 0.0
+    _longitude = 0.0
+    _altitude = 0.0
+    _state = ''
+
+
+    """ 
+    @requires:
+    @modifies: makes the payload available as an attribute using the @property decorator
+    @returns:
+    """
+    @property
+    def payload(self):
+        return Parser._payload
+    
+    """ 
+    @requires: a new payload string 
+    @modifies: sets the class attribute _payload to the passed in string using the
+    '=' assingment operator. It also calls the parsePayload Method
+    @returns:
+    """
+    @payload.setter
+    def payload(self, new_payload):
+        try:
+            Parser._payload = str(new_payload)
+            self.parsePayload()
+        except ValueError as e:
+            print('Error: {}'.format(e))
+        else:
+            self.notify()
+
     cabins = []
 
     """ 
@@ -77,7 +110,7 @@ class Parser(object):
     @returns: 
     """
     def parsePayload(self):
-        Parser.cabins = Parser.payload.split('-')
+        Parser.cabins = Parser._payload.split('-')
 
     """ 
     @requires: a raw chunk of sensor data segment

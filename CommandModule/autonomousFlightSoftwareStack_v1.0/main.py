@@ -17,6 +17,8 @@ listen.runListener()
 
 time.sleep(10)
 
+Listener.shutdown_server()
+
 print('sure!' + Parser.payload)
 
 sys.exit()
