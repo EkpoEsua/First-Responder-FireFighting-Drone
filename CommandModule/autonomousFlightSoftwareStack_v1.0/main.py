@@ -9,11 +9,14 @@ Created on Mon September 23 11:14:45 2019
 """
 import time, sys, asyncio
 from sensorListener import Listener
+from utilities.parser import Parser
 
 listen = Listener()
 
 listen.runListener()
 
 time.sleep(10)
+
+print('sure!' + Parser.payload)
 
 sys.exit()

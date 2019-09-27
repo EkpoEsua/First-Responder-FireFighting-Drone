@@ -13,13 +13,10 @@ from utilities.location import Location
 
 class Sensor(object):
 
-    ID = 0
-
-    def __init__(self, latitude, longitude, altitude=0):
+    def __init__(self, ID, latitude, longitude, altitude=0):
         self._location = Location(latitude, longitude)
-        self._status = 0
-        Sensor.ID += 1
-        self._sensorId = Sensor.ID
+        self._status = 'LOW'
+        self._sensorId = ID
         
     """ 
     @requires: 
@@ -27,7 +24,7 @@ class Sensor(object):
     @returns: location object
     """
     def getLocation(self):
-        return 
+        return self._location
 
     """ 
     @requires: 

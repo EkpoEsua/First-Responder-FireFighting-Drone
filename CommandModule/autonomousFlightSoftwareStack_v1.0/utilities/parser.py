@@ -14,7 +14,7 @@ this attributes will be used to create a sensor object having such attributes.
 
 class Parser(object):
 
-    payload = "sensorID_01-lat_20.23-lon_30.23-alt_0.00-state_HIGH"
+    payload = ""
     cabins = []
 
     """ 

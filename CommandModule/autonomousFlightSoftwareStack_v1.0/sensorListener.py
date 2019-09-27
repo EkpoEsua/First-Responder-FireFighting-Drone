@@ -58,4 +58,4 @@ class Listener(object):
     @returns:
     """  
     def runListenerOnThread(self):
-        Listener.listener.run()
+        Listener.listener.run(host='0.0.0.0', port=5000)
