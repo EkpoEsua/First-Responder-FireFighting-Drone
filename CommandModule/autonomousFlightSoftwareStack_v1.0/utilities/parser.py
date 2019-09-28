@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """
 Created on Thursday September 26 11:14:45 2019
 
@@ -11,17 +11,20 @@ this attributes will be used to create a sensor object having such attributes.
 
 """
 
-from utilities.publisher import Publisher
+from publisher import Publisher
 
 class Parser(Publisher):
 
     _payload = ''
+    cabins = []
     _sensorID = ''
     _latitude = 0.0
     _longitude = 0.0
     _altitude = 0.0
     _state = ''
 
+    def __init__(self):
+        Publisher.__init__(self)
 
     """ 
     @requires:
@@ -41,14 +44,13 @@ class Parser(Publisher):
     @payload.setter
     def payload(self, new_payload):
         try:
-            Parser._payload = str(new_payload)
+            print('about to assign payload')
+            Parser._payload = new_payload
             self.parsePayload()
         except ValueError as e:
             print('Error: {}'.format(e))
         else:
             self.notify()
-
-    cabins = []
 
     """ 
     @requires:
@@ -110,7 +112,9 @@ class Parser(Publisher):
     @returns: 
     """
     def parsePayload(self):
+        print('Parsing sensor data...')
         Parser.cabins = Parser._payload.split('-')
+        print('Parsing done!')
 
     """ 
     @requires: a raw chunk of sensor data segment
@@ -124,3 +128,11 @@ class Parser(Publisher):
         index = raw.find('_')
         data = raw[index+1:]
         return data
+
+print(Parser._payload)
+
+parse = Parser()
+
+parse.payload = 'come'
+
+print(Parser._payload)

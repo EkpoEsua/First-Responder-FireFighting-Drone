@@ -11,14 +11,15 @@ into the parser class for further processing.
 """
 
 from flask import Flask, request
-import threading
+import threading, time
 from utilities.parser import Parser
 
 
 class Listener(object):
 
     listener = Flask(__name__)
-    stop = False
+    _stop = False
+    _continue = False
 
     def __init__(self):
         
@@ -32,22 +33,30 @@ class Listener(object):
         self.thread.daemon = True
 
     """ 
-    @requires:
-    @modifies:
-    @returns: ID data from the cabin
+    @requires: sensor information, its (id, latitude, longitude, altitude, and state)
+    @modifies: loads sent sensor data into Parser payload attribute for further processing
+    @returns: sends an 'OK' message back to sensor module in event of sucessfully loading sent data
+    or 'OFF' when the server has been shutdown
     """
     def index(self, id, lat, lon, alt, state):
-        func = request.environ.get('werkzeug.server.shutdown')
-        if func is None:
-            raise RuntimeError('Not running with the Werkzeug Server')
-        func()
-        # if Listener.stop:
-        #     Listener.shutdown_server()
-        dash = "-"
-        payload = id+dash+lat+dash+lon+dash+alt+dash+state
-        Parser.payload = payload
-        print(payload)
-        return "OK"
+        Listener._continue = True
+        if Listener._stop:
+            # routine for shutting down listener
+            func = request.environ.get('werkzeug.server.shutdown')
+            if func:
+                func()
+            
+            #wait for server to shutdown
+            print('waiting for listener to shutdown...')
+            time.sleep(10)
+            print('listener shutdown!')
+            return "OFF"
+        else:
+            dash = "-"
+            payload = id + dash + lat + dash + lon + dash + alt + dash + state
+            Parser.payload = payload
+            print(payload)
+            return "OK"
 
     """ 
     @requires:
@@ -69,7 +78,5 @@ class Listener(object):
 
     @staticmethod
     def shutdown_server():
-        func = request.environ.get('werkzeug.server.shutdown')
-        if func is None:
-            raise RuntimeError('Not running with the Werkzeug Server')
-        func()
+        Listener._stop = True
+        print('Listener shutdown intiated!')

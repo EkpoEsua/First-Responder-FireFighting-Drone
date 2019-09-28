@@ -15,13 +15,19 @@ listen = Listener()
 
 listen.runListener()
 
+print('waiting for request!...')
+#wait for first request so the Parser class can have a valid string payload
+while not Listener._continue:
+    continue
+
+print('request recieved, continuing...')
+
 time.sleep(10)
 
-Listener.stop = True
-print('stop initiated!')
-
-time.sleep(10)
+Listener.shutdown_server()
 
 print('sure!' + Parser.payload)
+
+input()
 
 sys.exit()
