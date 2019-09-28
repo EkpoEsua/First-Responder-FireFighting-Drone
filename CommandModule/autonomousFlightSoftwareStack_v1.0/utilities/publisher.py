@@ -12,6 +12,7 @@ of which is the SensorAudit class
 class Publisher():
 
     def __init__(self):
+        print('creating observers...')
         self.observers = []
 
     """ 
@@ -21,9 +22,10 @@ class Publisher():
     """
     def add(self, observer):
         if observer not in self.observers:
+            print('adding new observer: {}'.format(observer))
             self.observers.append(observer)
         else:
-            print('Faile to add: {}'.format(observer))
+            print('Fails to add: {}'.format(observer))
 
     """ 
     @requires: observer object
@@ -32,6 +34,7 @@ class Publisher():
     """
     def remove(self, observer):
         try:
+            print('removing observer: {}'.format(observer))
             self.observers.remove(observer)
         except ValueError:
             print('Failed to remove: {}'.format(observer))
@@ -42,6 +45,7 @@ class Publisher():
     @returns:
     """
     def notify(self):
+        print('notifying observers...')
         for o in self.observers:
             o.notify(self)
 

@@ -12,25 +12,45 @@ into the parser class for further processing.
 
 from flask import Flask, request
 import threading, time
-from utilities.parser import Parser
+from utilities.publisher import Publisher
 
 
-class Listener(object):
+class Listener(Publisher):
 
-    listener = Flask(__name__)
-    _stop = False
-    _continue = False
+    
 
     def __init__(self):
+
+        super().__init__()
+
+        self._listener = Flask(__name__)
+        self._stop = False
+        self._continue = False
+        self._payload = ''
         
         # register url and callback function by which sensors offload their data
-        Listener.listener.add_url_rule("/sensor_data/<string:id>/<string:lat>/<string:lon>/<string:alt>/<string:state>", "index", self.index)
+        self._listener.add_url_rule("/sensor_data/<string:id>/<string:lat>/<string:lon>/<string:alt>/<string:state>", "index", self.index)
 
         # create a thread to run network listener and register associated method to run it
-        self.thread = threading.Thread(target=self.runListenerOnThread)
+        self._thread = threading.Thread(target=self.runListenerOnThread)
 
         #set the thread daemon as True so that the thread is closed on exit of main thread
-        self.thread.daemon = True
+        self._thread.daemon = True
+
+    @property
+    def payload(self):
+        return self._payload
+
+    @payload.setter
+    def payload(self, new_payload):
+        try:
+            print('Loading payload in Listener')
+            self._payload = new_payload
+        except ValueError as e:
+            print('Error: {}'.format(e))
+        else:
+            print('notifying publisher class from Listener')
+            self.notify()
 
     """ 
     @requires: sensor information, its (id, latitude, longitude, altitude, and state)
@@ -39,8 +59,8 @@ class Listener(object):
     or 'OFF' when the server has been shutdown
     """
     def index(self, id, lat, lon, alt, state):
-        Listener._continue = True
-        if Listener._stop:
+        self._continue = True
+        if self._stop:
             # routine for shutting down listener
             func = request.environ.get('werkzeug.server.shutdown')
             if func:
@@ -54,7 +74,7 @@ class Listener(object):
         else:
             dash = "-"
             payload = id + dash + lat + dash + lon + dash + alt + dash + state
-            Parser.payload = payload
+            self.payload = payload
             print(payload)
             return "OK"
 
@@ -64,7 +84,7 @@ class Listener(object):
     @returns:
     """
     def runListener(self):
-        self.thread.start()
+        self._thread.start()
 
     """ 
     @requires:
@@ -74,9 +94,13 @@ class Listener(object):
     @returns:
     """  
     def runListenerOnThread(self):
-        Listener.listener.run(host='0.0.0.0', port=5000)
+        self._listener.run(host='0.0.0.0', port=5000)
 
-    @staticmethod
-    def shutdown_server():
-        Listener._stop = True
+    """ 
+    @requires:
+    @modifies: set stop variable to true so as to initiate shuttingdown of the server
+    @returns:
+    """
+    def shutdown_server(self):
+        self._stop = True
         print('Listener shutdown intiated!')

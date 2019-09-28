@@ -10,21 +10,23 @@ such as an ID, latitude, longitude, state and altitude attribute within its inst
 this attributes will be used to create a sensor object having such attributes.
 
 """
+import sys
 
-from publisher import Publisher
+print(sys.path[0])
+
+from  publisher import Publisher
 
 class Parser(Publisher):
 
-    _payload = ''
-    cabins = []
-    _sensorID = ''
-    _latitude = 0.0
-    _longitude = 0.0
-    _altitude = 0.0
-    _state = ''
-
     def __init__(self):
-        Publisher.__init__(self)
+        super().__init__()
+        self._payload = ''
+        self._cabins = []
+        self._sensorID = ''
+        self._latitude = 0.0
+        self._longitude = 0.0
+        self._altitude = 0.0
+        self._state = ''
 
     """ 
     @requires:
@@ -33,8 +35,8 @@ class Parser(Publisher):
     """
     @property
     def payload(self):
-        return Parser._payload
-    
+        return self._payload
+
     """ 
     @requires: a new payload string 
     @modifies: sets the class attribute _payload to the passed in string using the
@@ -44,13 +46,54 @@ class Parser(Publisher):
     @payload.setter
     def payload(self, new_payload):
         try:
-            print('about to assign payload')
-            Parser._payload = new_payload
+            print('about to assign payload in Parser')
+            self._payload = new_payload
             self.parsePayload()
         except ValueError as e:
             print('Error: {}'.format(e))
         else:
-            self.notify()
+            print("notifying publisher class from Parser class")
+            super().notify()
+
+    @property
+    def sensorID(self):
+        return self._sensorID
+    
+    @sensorID.setter
+    def sensorID(self, id):
+        self._sensorID = id
+
+    @property
+    def latitude(self):
+        return self._latitude
+
+    @latitude.setter
+    def latitude(self, lat):
+        self._latitude = lat
+
+    @property
+    def longitude(self):
+        return self._longitude
+
+    @longitude.setter
+    def longitude(self, lon):
+        self._longitude = lon
+
+    @property
+    def altitude(self):
+        return self._altitude
+
+    @altitude.setter
+    def altitude(self, alt):
+        self._altitude = alt
+
+    @property
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, state):
+        self._state = state
 
     """ 
     @requires:
@@ -58,7 +101,7 @@ class Parser(Publisher):
     @returns: ID data from the cabin
     """
     def getID(self):
-        info = Parser.cabins[0]
+        info = self._cabins[0]
         data = self.findData(info)
         return data
 
@@ -68,7 +111,7 @@ class Parser(Publisher):
     @returns: latitude data from the cabin
     """
     def getLatitude(self):
-        info = Parser.cabins[1]
+        info = self._cabins[1]
         data = self.findData(info)
         data = float(data)
         return data
@@ -79,7 +122,7 @@ class Parser(Publisher):
     @returns: longitude data from the cabin
     """
     def getLongitude(self):
-        info = Parser.cabins[2]
+        info = self._cabins[2]
         data = self.findData(info)
         data = float(data)
         return data
@@ -90,7 +133,7 @@ class Parser(Publisher):
     @returns: altitude data from the cabin
     """
     def getAltitude(self):
-        info = Parser.cabins[3]
+        info = self._cabins[3]
         data = self.findData(info)
         data = float(data)
         return data
@@ -101,7 +144,7 @@ class Parser(Publisher):
     @returns: state data from the cabin
     """
     def getState(self):
-        info = Parser.cabins[4]
+        info = self._cabins[4]
         data = self.findData(info)
         return data
 
@@ -112,9 +155,16 @@ class Parser(Publisher):
     @returns: 
     """
     def parsePayload(self):
-        print('Parsing sensor data...')
-        Parser.cabins = Parser._payload.split('-')
+        print('Parsing sensor data in Parser...')
+        self._cabins = self._payload.split('-')
+        self.sensorID = self.getID()
+        self.latitude = self.getLatitude()
+        self.longitude = self.getLongitude()
+        self.altitude = self.getAltitude()
+        self.state =  self.getState()
         print('Parsing done!')
+        print('Data gotten')
+        print('SensorID: {} - Latitude: {} - Longitude: {} - Altitude: {} - State: {}'.format(self.sensorID, self.latitude, self.longitude, self.altitude, self.state))
 
     """ 
     @requires: a raw chunk of sensor data segment
@@ -129,10 +179,8 @@ class Parser(Publisher):
         data = raw[index+1:]
         return data
 
-print(Parser._payload)
-
-parse = Parser()
-
-parse.payload = 'come'
-
-print(Parser._payload)
+    
+    def notify(self, publisher):
+        print ('notification from publisher into Parser class')
+        self.payload = publisher.payload
+        print('payload gotten from publisher')
