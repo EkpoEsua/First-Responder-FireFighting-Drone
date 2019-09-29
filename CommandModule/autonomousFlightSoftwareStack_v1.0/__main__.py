@@ -17,35 +17,27 @@ sys.path.append(path1)
 from sensorListener import Listener
 from utilities.parser import Parser
 
-# listen = Listener()
-
-# listen.runListener()
-
-# print('waiting for request!...')
-# #wait for first request so the Parser class can have a valid string payload
-# while not Listener._continue:
-#     continue
-
-# print('request recieved, continuing...')
-
-# time.sleep(10)
-
-# Listener.shutdown_server()
-
-# print('sure!' + Parser.payload)
-
+#instantiate the parser class
 parser = Parser()
 
+#instantiate the listener class
 listen = Listener()
 
+#add the parser class as a subscriber to the listener class so as to get update on sensor data from the 
+#network
 listen.add(parser)
 
+#start up the network listener
 listen.runListener()
 
+#wait for 10 seconds before shutting down the listener
 time.sleep(10)
 
+#shutdown the listener
 listen.shutdown_server()
 
+#hold console in order to observe print outputs
 input()
 
+#exit main thread this shuts down the listener thread as well
 sys.exit()

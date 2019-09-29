@@ -53,3 +53,13 @@ class Sensor(object):
     """
     def setStatus(self, state):
         self._status = state
+
+    """ 
+    @requires: 
+    @modifies: overides the equals method from it parent class 'object' when checking if
+    two sensors are the same, the property being checked for and compared is the
+    sensorID since each sensor is expected to have a unique ID
+    @returns:
+    """
+    def __eq__(self, sensor):
+        

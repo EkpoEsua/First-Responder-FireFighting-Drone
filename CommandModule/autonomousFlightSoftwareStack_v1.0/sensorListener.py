@@ -8,6 +8,10 @@ Created on Mon September 23 11:14:45 2019
 html protocol, it makes use of the Flask framework and offloads this information
 into the parser class for further processing.
 
+The network listener is run on a seperate thread from the main thread so as to allow
+for concurrent listening over the network and performing other tasks on the main
+thread.
+
 """
 
 from flask import Flask, request

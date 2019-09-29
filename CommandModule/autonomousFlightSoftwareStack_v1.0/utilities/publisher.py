@@ -9,7 +9,7 @@ of which is the SensorAudit class
 
 """
 
-class Publisher():
+class Publisher(object):
 
     def __init__(self):
         print('creating observers...')
