@@ -11,7 +11,8 @@ of which is the SensorAudit class
 
 class Publisher(object):
 
-    def __init__(self):
+    def __init__(self, publisher):
+        print('Publisher initiated from: {}'.format(publisher))
         print('creating observers...')
         self.observers = []
 

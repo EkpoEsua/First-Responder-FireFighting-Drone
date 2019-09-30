@@ -19,7 +19,7 @@ from  publisher import Publisher
 class Parser(Publisher):
 
     def __init__(self):
-        super().__init__()
+        super().__init__(self)
         self._payload = ''
         self._cabins = []
         self._sensorID = ''
@@ -184,3 +184,6 @@ class Parser(Publisher):
         print ('notification from publisher into Parser class')
         self.payload = publisher.payload
         print('payload gotten from publisher')
+
+    def __str__(self):
+        return 'Parser Class'

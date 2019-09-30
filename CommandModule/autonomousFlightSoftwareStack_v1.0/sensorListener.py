@@ -25,7 +25,7 @@ class Listener(Publisher):
 
     def __init__(self):
 
-        super().__init__()
+        super().__init__(self)
 
         self._listener = Flask(__name__)
         self._stop = False
@@ -108,3 +108,6 @@ class Listener(Publisher):
     def shutdown_server(self):
         self._stop = True
         print('Listener shutdown intiated!')
+
+    def __str__(self):
+        return 'Listener Class'
