@@ -54,7 +54,7 @@ class Listener(Publisher):
             print('Error: {}'.format(e))
         else:
             print('notifying publisher class from Listener')
-            self.notify()
+            super().notify()
 
     """ 
     @requires: sensor information, its (id, latitude, longitude, altitude, and state)

@@ -43,12 +43,13 @@ class Auditor(Publisher):
             self._sensors.append(sensor)
             sensor.state = state
         else:
+            sensor = self._sensors[self._sensors.index(sensor)]
             sensor.state = state
+            print(sensor.state)
             print('Updated Sensor: {}'.format(sensor))
             if sensor.triggered:
                 print('Notifying subscribers to the sensor\'s triggered state feed from the Auditor')
                 super().notify()
-
     """ 
     @requires: 
     @modifies: called when the Parser class which it is subscribed to has parsed sensor data

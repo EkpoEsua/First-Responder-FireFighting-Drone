@@ -84,6 +84,11 @@ class Sensor(object):
     def triggered(self):
         return self._state.count('HIGH') == 5
 
+    @property
+    def mission(self):
+        print('Create Mission for the sensor')
+        return None
+
     """ 
     @requires: a sensor object
     @modifies: overides the equals method from it parent class 'object' when checking if
@@ -94,11 +99,13 @@ class Sensor(object):
     def __eq__(self, sensor):
         return self.sensorID == sensor.sensorID
 
+    # override string method
     def __str__(self):
         return ('SensorID: {} - Latitude: {} - Longitude: {} - Altitude: {} - Triggered: {}'.format(self.sensorID, self.position.latitude, self.position.longitude, self.position.altitude, self.triggered))
 
 
+
 #create sensor object for testing of the class only should be commented out
-sensor1 = Sensor('01', 3.435, 98.234, 2.00)
-sensor2 = Sensor('02', 4.435, 99.234, 3.00)
-sensor3 = Sensor('03', 5.435, 97.234, 4.00)
+# sensor1 = Sensor('01', 3.435, 98.234, 2.00)
+# sensor2 = Sensor('02', 4.435, 99.234, 3.00)
+# sensor3 = Sensor('03', 5.435, 97.234, 4.00)
