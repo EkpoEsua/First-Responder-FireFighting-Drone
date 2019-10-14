@@ -84,6 +84,7 @@ class Sensor(object):
     def triggered(self):
         return self._state.count('HIGH') == 5
 
+    # TODO: complete method
     @property
     def mission(self):
         print('Create Mission for the sensor')

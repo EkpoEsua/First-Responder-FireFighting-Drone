@@ -38,7 +38,7 @@ parser.add(audit)
 listen.runListener()
 
 #wait for 10 seconds before shutting down the listener
-time.sleep(60)
+time.sleep(10)
 
 #shutdown the listener
 listen.shutdown_server()

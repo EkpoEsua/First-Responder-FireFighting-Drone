@@ -72,7 +72,7 @@ class Listener(Publisher):
             
             #wait for server to shutdown
             print('waiting for listener to shutdown...')
-            time.sleep(10)
+            time.sleep(5)
             print('listener shutdown!')
             return "OFF"
         else:

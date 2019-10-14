@@ -68,10 +68,10 @@ class Auditor(Publisher):
         return 'Auditor Class'
 
 #create sensor object for testing of the class only should be commented out
-audit = Auditor()
-sensor1 = Sensor('01', 3.435, 98.234, 2.00)
-sensor2 = Sensor('02', 4.435, 99.234, 3.00)
-sensor3 = Sensor('03', 5.435, 97.234, 4.00)
-sensor4 = Sensor('04', 6.435, 96.234, 5.00)
-sensor5 = Sensor('05', 7.435, 94.234, 6.00)
-sensor6 = Sensor('06', 8.435, 92.234, 7.00)
+# audit = Auditor()
+# sensor1 = Sensor('01', 3.435, 98.234, 2.00)
+# sensor2 = Sensor('02', 4.435, 99.234, 3.00)
+# sensor3 = Sensor('03', 5.435, 97.234, 4.00)
+# sensor4 = Sensor('04', 6.435, 96.234, 5.00)
+# sensor5 = Sensor('05', 7.435, 94.234, 6.00)
+# sensor6 = Sensor('06', 8.435, 92.234, 7.00)
