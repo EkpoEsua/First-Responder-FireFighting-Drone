@@ -8,11 +8,11 @@ Created on Mon September 23 11:14:45 2019
 
 """
 import time, sys, asyncio
-path = "C:\\Users\\Esua Ekpo\\Documents\\Project First Responder Drone\\First-Responder-FireFighting-Drone\\CommandModule\\autonomousFlightSoftwareStack_v1.0\\utilities"
-path1 = "C:\\Users\\Esua Ekpo\\Documents\\Project First Responder Drone\\First-Responder-FireFighting-Drone\\CommandModule\\autonomousFlightSoftwareStack_v1.0"
+# path = "C:\\Users\\Esua Ekpo\\Documents\\Project First Responder Drone\\First-Responder-FireFighting-Drone\\CommandModule\\autonomousFlightSoftwareStack_v1.0\\utilities"
+# path1 = "C:\\Users\\Esua Ekpo\\Documents\\Project First Responder Drone\\First-Responder-FireFighting-Drone\\CommandModule\\autonomousFlightSoftwareStack_v1.0"
 
-sys.path.append(path)
-sys.path.append(path1)
+# sys.path.append(path)
+# sys.path.append(path1)
 
 from sensorListener import Listener
 from utilities.parser import Parser
