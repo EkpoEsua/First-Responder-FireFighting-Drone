@@ -14,7 +14,7 @@ import sys
 
 print(sys.path[0])
 
-from  publisher import Publisher
+from  utilities.publisher import Publisher
 
 class Parser(Publisher):
 
