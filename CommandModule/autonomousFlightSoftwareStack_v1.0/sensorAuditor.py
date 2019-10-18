@@ -11,10 +11,6 @@ sensor information is available, therefore it implements the 'notify()' method
 
 """
 
-import sys
-
-sys.path.append('C:\\Users\\Esua Ekpo\\Documents\\Project First Responder Drone\\First-Responder-FireFighting-Drone\\CommandModule\\autonomousFlightSoftwareStack_v1.0')
-
 from sensor import Sensor
 from utilities.publisher import Publisher
 

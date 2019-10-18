@@ -10,9 +10,6 @@ such as an ID, latitude, longitude, state and altitude attribute within its inst
 this attributes will be used to create a sensor object having such attributes.
 
 """
-import sys
-
-print(sys.path[0])
 
 from  utilities.publisher import Publisher
 

@@ -10,10 +10,6 @@ for use by other modules such as the sensorAuditor
 C:\\Users\\Esua Ekpo\\Documents\\Project First Responder Drone\\First-Responder-FireFighting-Drone\\CommandModule\\autonomousFlightSoftwareStack_v1.0\\utilities
 
 """
-import sys
-
-sys.path.append('C:\\Users\\Esua Ekpo\\Documents\\Project First Responder Drone\\First-Responder-FireFighting-Drone\\CommandModule\\autonomousFlightSoftwareStack_v1.0')
-
 from utilities.location import Position
 
 class Sensor(object):
