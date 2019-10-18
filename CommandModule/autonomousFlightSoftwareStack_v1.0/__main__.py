@@ -17,6 +17,7 @@ sys.path.append(path1)
 from sensorListener import Listener
 from utilities.parser import Parser
 from sensorAuditor import Auditor
+import mission
 
 #instantiate the parser class
 parser = Parser()
