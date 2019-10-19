@@ -14,26 +14,52 @@ sensor information is available, therefore it implements the 'notify()' method
 from sensor import Sensor
 from utilities.publisher import Publisher
 
-class Auditor(Publisher):
+class Auditor(object):
 
     def __init__(self):
-        super().__init__(self)
+        # super().__init__(self)
         self._sensors = []
+        self._missionAvailable = False
+        self._triggeredSensor = None
 
     @property
     def sensors(self):
         for sensor in self._sensors:
             print(sensor)
 
-    """ 
-    @requires: sensor: object, state: string ('HIGH' or 'LOW')
-    @modifies: updates the sensor catalog, and add a sensor if it is new or it updates the sensor's state
-    after updating a newly read state it checks if the sensor is in a triggered state, and the
-    calls the notify method of its parent class so as to notify observers to take designated actions
-    in this case the mission module
-    @returns:
-    """
+    @property
+    def mission(self):
+        """
+        Contains mission information for triggered sensor
+        """
+
+        if self._missionAvailable:
+            return self._triggeredSensor
+        else:
+            return False
+
+    @mission.setter
+    def mission(self, sensor):
+        """
+        Sets the _triggered sensor attribute to the trigerred sensor
+        """
+
+        if not self._missionAvailable:
+            print('Activating mission tracker and setting triggerred sensor')
+            self._triggeredSensor = sensor
+            self._missionAvailable = True
+
     def updateSensors(self, sensor, state):
+        """ 
+        @requires: sensor: object, state: string ('HIGH' or 'LOW')
+        @modifies: updates the sensor catalog, and add a sensor if it is new or it updates the sensor's state
+        after updating a newly read state it checks if the sensor is in a triggered state, and the
+        calls the notify method of its parent class so as to notify observers to take designated actions
+        in this case the mission module
+        @returns:
+        """
+
+
         if sensor not in self._sensors:
             print('Adding New sensor: {}'.format(sensor))
             self._sensors.append(sensor)
@@ -44,14 +70,17 @@ class Auditor(Publisher):
             print(sensor.state)
             print('Updated Sensor: {}'.format(sensor))
             if sensor.triggered:
-                print('Notifying subscribers to the sensor\'s triggered state feed from the Auditor')
-                super().notify()
-    """ 
-    @requires: 
-    @modifies: called when the Parser class which it is subscribed to has parsed sensor data
-    @returns:
-    """
+                # super().notify()
+                self.mission = sensor
+    
     def notify(self, publisher):
+        """ 
+        @requires: 
+        @modifies: called when the Parser class which it is subscribed to has parsed sensor data
+        @returns:
+        """
+
+
         print('Parsed payload recieved from Parser publisher into the Auditor.')
         sensorID = publisher.sensorID
         lat = publisher.latitude

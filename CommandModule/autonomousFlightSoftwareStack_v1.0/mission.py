@@ -9,9 +9,11 @@ MISSION_LON = 8.5455725400000002
 MISSION_HEIGHT = 5.0
 MISSION_SPEED = 3.0
 ACTION_HEIGHT = 2.0
+
+# This is the time it takes for the drone to discharge its content
 ACTION_TIME_SECS = 10
 
-async def run():
+async def runMission(MISSION_LAT, MISSION_LON, ACTION_HEIGHT):
     """
     This is the "main" function.
     It first creates the drone object and initializes it.
@@ -24,6 +26,19 @@ async def run():
     Note that "observe_is_in_air" is not necessary, but it ensures that the
     script waits until the drone is actually landed, so that we receive feedback
     during the landing as well.
+
+    Parameters
+    ----------
+    MISSION_LAT : float
+        - This is the latitude of the mission location point
+
+    MISSION_LON : float
+        - This is the longitude of the mission location point
+
+    ACTION_HEIGHT : float
+        - This is the height of the point to be extinguished, relative to the
+        the home altitude in meters.
+
     """
 
     # Initialize the drone
@@ -93,6 +108,9 @@ async def run():
                                      MissionItem.CameraAction.NONE,
                                      ACTION_TIME_SECS,
                                      float('nan')))
+    
+    for mission in mission_items:
+        print(mission)
 
     await drone.mission.set_return_to_launch_after_mission(True)
 
@@ -182,4 +200,4 @@ async def observe_is_in_air(drone):
 
 
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(run())
+    asyncio.get_event_loop().run_until_complete(runMission(MISSION_LAT, MISSION_LON, ACTION_HEIGHT))
