@@ -7,6 +7,9 @@ Created on Mon September 23 11:14:45 2019
 @decription: This is the main entry point for run the autonomoous mission software module
 
 """
+
+# http://127.0.0.1:5000/sensor_data/sensorID_01/lat_47.398039859999997/lon_8.5455725400000002/alt_2.00/state_HIGH
+
 import time, sys, asyncio
 
 from sensorListener import Listener
@@ -40,7 +43,7 @@ while (True):
         sensor = audit.mission
         print(f"********** {sensor} **********")
         sensor_position = sensor.position
-        asyncio.get_event_loop().run_until_complete(mission.runMission(sensor_position.latitude, sensor_position.longitude, sensor_position.altitude))
+        mission.run(sensor_position.latitude, sensor_position.longitude, sensor_position.altitude)
         break
 
 audit.sensors
