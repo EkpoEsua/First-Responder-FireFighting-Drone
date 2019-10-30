@@ -2,13 +2,13 @@
 
 import asyncio, time
 from mavsdk import System
-from mavsdk import (MissionItem)
+from mavsdk import (MissionItem, ActuatorControl, ActuatorControlGroup)
 
-# MISSION_LAT = 47.398039859999997
-# MISSION_LON = 8.5455725400000002
+MISSION_LAT = 47.398039859999997
+MISSION_LON = 8.5455725400000002
 MISSION_HEIGHT = 5.0
 MISSION_SPEED = 3.0
-# ACTION_HEIGHT = 2.0
+ACTION_HEIGHT = 2.0
 
 # This is the time it takes for the drone to discharge its content
 ACTION_TIME_SECS = 10
@@ -52,6 +52,23 @@ async def runMission(MISSION_LAT, MISSION_LON, ACTION_HEIGHT):
             print(f"Drone discovered with UUID: {state.uuid}")
             break
 
+    # Create actuator control
+    nan = float("nan")
+
+    main_group_array = [nan, nan, nan, nan, nan, nan, nan, nan]
+    main_control_group = ActuatorControlGroup(main_group_array)
+
+    aux_group_array_normal = [nan, nan, nan, 0.1, 0.1, nan, nan, nan]
+    aux_group_array_action = [nan, nan, nan, 0.9, 0.9, nan, nan, nan]
+    aux_control_group = ActuatorControlGroup(aux_group_array_normal)
+
+    control_groups = [main_control_group, aux_control_group]
+    control = ActuatorControl(control_groups)
+
+    # Set actuactor control in the drone
+    await drone.offboard.set_actuator_control(control)
+
+
     # Set up mission parameters
     await set_mission_params(drone)
 
@@ -64,10 +81,9 @@ async def runMission(MISSION_LAT, MISSION_LON, ACTION_HEIGHT):
     asyncio.ensure_future(print_altitude(drone))
     asyncio.ensure_future(print_flight_mode(drone))
     asyncio.ensure_future(print_status(drone))
-    asyncio.ensure_future(print_mission_progress(drone))
+    asyncio.ensure_future(print_mission_progress(drone, control))
     termination_task = asyncio.ensure_future(observe_is_in_air(drone))
 
-    # create actuator controls
 
     # Create Mission and get mission items
     mission_items = await initialize_mission(drone, MISSION_LAT, MISSION_LON, ACTION_HEIGHT)
@@ -141,9 +157,13 @@ async def print_status(drone):
             print(status)
 
 
-async def print_mission_progress(drone):
+async def print_mission_progress(drone, control):
     async for mission_progress in drone.mission.mission_progress():
         print(f"Mission progress: {mission_progress.current_item_index}/{mission_progress.mission_count}")
+        # if mission_progress.current_item_index == mission_progress.mission_count:
+        #     await drone.offboard.set_actuator_control(control)
+        #     await asyncio.sleep(2)
+        #     await drone.offboard.start()
 
 
 async def set_mission_params(drone):
@@ -228,3 +248,4 @@ async def observe_is_in_air(drone):
 def run(MISSION_LAT, MISSION_LON, ACTION_HEIGHT):
     asyncio.get_event_loop().run_until_complete(runMission(MISSION_LAT, MISSION_LON, ACTION_HEIGHT))
 
+run(MISSION_LAT, MISSION_LON, ACTION_HEIGHT)

@@ -14,12 +14,15 @@ const char* ssid     = STASSID;
 const char* password = STAPSK;
 
 //define connection variables as a character array
+String ID = "01";
 String AP_IP_addr = "192.168.4.1";
 String port = "5000";
-String sensorLatitude = "lat_84.34";
-String sensorLongitude = "lon_98.29";
-String sensorAltitude = "alt_0.00";
-String sensorID = "sensorID_01"
+String sensorLatitude = "47.398039859999997";
+String sensorLongitude = "8.5455725400000002";
+String altitude = "2.00";
+String slash = "/";
+
+String request = String("http://" + AP_IP_addr + ":" + port + "/" + "sensor_data" + "/" + "sensorID_" + ID + "/" + "lat_" + sensorLatitude + "/" + "lon_" + sensorLongitude +"/"+"alt_"+altitude+"/"+"state_");
 
 void setup() {
   //insert debug tests
@@ -77,21 +80,20 @@ void loop() {
       // and pinLevel is the state of the pin connect to the fire sensor
       
       // Be sure to change this IP address and port number to match yours!!!
-      http.begin("http://192.168.8.1:5000/sensor_data/sensorID_01/lat_29.3/lon_73.4/alt_0.00/state_HIGH");
-//      http.begin("http://" + AP_IP_addr + ":" + port+ "/sensor_data/" + sensorLatitude + "/" + sensorLongitude + "/HIGH");
+      http.begin(request+"HIGH");
       int httpCode = http.GET();
       http.end();
       Serial.println("Sent:");
-      Serial.println("http://" + AP_IP_addr + ":" + port+ "/sensor_data/" + sensorLatitude + "/" + sensorLongitude + "/HIGH");
+      Serial.println(request+"HIGH");
     }
     
     else{
       // Be sure to change this IP address and port number to match yours!!!
-      http.begin("http://192.168.8.1:5000/sensor_data/29.3/73.4/LOW");
+      http.begin(request+"LOW");
       int httpCode = http.GET();
       http.end();
       Serial.println("Sent:");
-      Serial.println("http://192.168.8.1:5000/sensor_data/29.3/73.4/LOW");
+      Serial.println(request+"HIGH");
     }
   }
   else{
