@@ -37,6 +37,7 @@ parser.add(audit)
 #start up the network listener
 listen.runListener()
 
+#  for testing of the sensor module please comment this out (the while loop below)
 while (True):
     time.sleep(1)
     if audit.mission:
@@ -47,6 +48,8 @@ while (True):
         break
 
 audit.sensors
+
+input()
 
 #shutdown the listener
 listen.shutdown_server()

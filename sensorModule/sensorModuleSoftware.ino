@@ -13,14 +13,16 @@
 const char* ssid     = STASSID;
 const char* password = STAPSK;
 
-//define connection variables as a character array
-String ID = "01";
+// define the connection parameters for the command module
 String AP_IP_addr = "192.168.4.1";
 String port = "5000";
+
+// define sensor module parameters
+String ID = "01";
 String sensorLatitude = "47.398039859999997";
 String sensorLongitude = "8.5455725400000002";
 String altitude = "2.00";
-String slash = "/";
+
 
 String request = String("http://" + AP_IP_addr + ":" + port + "/" + "sensor_data" + "/" + "sensorID_" + ID + "/" + "lat_" + sensorLatitude + "/" + "lon_" + sensorLongitude +"/"+"alt_"+altitude+"/"+"state_");
 
@@ -93,7 +95,7 @@ void loop() {
       int httpCode = http.GET();
       http.end();
       Serial.println("Sent:");
-      Serial.println(request+"HIGH");
+      Serial.println(request+"LOW");
     }
   }
   else{
