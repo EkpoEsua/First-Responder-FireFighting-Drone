@@ -161,9 +161,10 @@ async def print_status(drone):
 async def print_mission_progress(drone, control):
     async for mission_progress in drone.mission.mission_progress():
         print(f"Mission progress: {mission_progress.current_item_index}/{mission_progress.mission_count}")
-        await drone.offboard.set_actuator_control(control)
+        # await drone.offboard.set_actuator_control(control)
         if mission_progress.current_item_index == mission_progress.mission_count:
-            await drone.offboard.start()
+            print('Initiating Fire Extinguisher!.')
+        #     await drone.offboard.start()
 
 
 async def set_mission_params(drone):
