@@ -16,7 +16,9 @@ from sensorListener import Listener
 from utilities.parser import Parser
 from sensorAuditor import Auditor
 from sensor import Sensor
-import mission
+import mission, new
+
+JUST_TAKEOFF_AND_LAND = 0
 
 #instantiate the parser class
 parser = Parser()
@@ -44,7 +46,11 @@ while (True):
         sensor = audit.mission
         print(f"********** {sensor} **********")
         sensor_position = sensor.position
-        mission.run(sensor_position.latitude, sensor_position.longitude, sensor_position.altitude)
+        if JUST_TAKEOFF_AND_LAND:
+            takeOffTime = 30
+            new.run(takeOffTime)
+        else:
+            mission.run(sensor_position.latitude, sensor_position.longitude, sensor_position.altitude)
         break
 
 audit.sensors

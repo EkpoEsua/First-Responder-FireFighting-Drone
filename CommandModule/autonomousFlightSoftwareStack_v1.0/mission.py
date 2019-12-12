@@ -249,4 +249,4 @@ async def observe_is_in_air(drone):
 def run(MISSION_LAT, MISSION_LON, ACTION_HEIGHT):
     asyncio.get_event_loop().run_until_complete(runMission(MISSION_LAT, MISSION_LON, ACTION_HEIGHT))
 
-run(MISSION_LAT, MISSION_LON, ACTION_HEIGHT)
+# run(MISSION_LAT, MISSION_LON, ACTION_HEIGHT)
