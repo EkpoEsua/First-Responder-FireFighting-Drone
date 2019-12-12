@@ -20,40 +20,41 @@ import mission, new
 
 JUST_TAKEOFF_AND_LAND = 0
 
-#instantiate the parser class
-parser = Parser()
-
-#instantiate the listener class
-listen = Listener()
-
-#instantiate the auditor class
-audit = Auditor()
-
-#add the parser class as a subscriber to the listener class so as to get update on sensor data from the 
-#network
-listen.add(parser)
-
-#add the auditor class as a listener to the parser class so as  to recieve parsed and preprocessed sensor data
-parser.add(audit)
-
-#start up the network listener
-listen.runListener()
-
-#  for testing of the sensor module please comment this out (the while loop below)
 while (True):
-    time.sleep(1)
-    if audit.mission:
-        sensor = audit.mission
-        print(f"********** {sensor} **********")
-        sensor_position = sensor.position
-        if JUST_TAKEOFF_AND_LAND:
-            takeOffTime = 30
-            new.run(takeOffTime)
-        else:
-            mission.run(sensor_position.latitude, sensor_position.longitude, sensor_position.altitude)
-        break
+    #instantiate the parser class
+    parser = Parser()
 
-audit.sensors
+    #instantiate the listener class
+    listen = Listener()
+
+    #instantiate the auditor class
+    audit = Auditor()
+
+    #add the parser class as a subscriber to the listener class so as to get update on sensor data from the 
+    #network
+    listen.add(parser)
+
+    #add the auditor class as a listener to the parser class so as  to recieve parsed and preprocessed sensor data
+    parser.add(audit)
+
+    #start up the network listener
+    listen.runListener()
+
+    #  for testing of the sensor module please comment this out (the while loop below)
+    while (True):
+        time.sleep(1)
+        if audit.mission:
+            sensor = audit.mission
+            print(f"********** {sensor} **********")
+            sensor_position = sensor.position
+            if JUST_TAKEOFF_AND_LAND:
+                takeOffTime = 30
+                new.run(takeOffTime)
+            else:
+                mission.run(sensor_position.latitude, sensor_position.longitude, sensor_position.altitude)
+            break
+
+    audit.sensors
 
 input()
 
